@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= roomId%></title>
+    <link rel="stylesheet" href="/css/room.css">
+    <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="/js/room.js" defer></script>
+   <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js" ></script>
+
+    <script>
+        const ROOM_ID = "<%= roomId %>";
+    </script>
+</head>
+<body>
+
+    <div class="main-container">
+        <div class="video-section">
+            <div class="videos">
+                <div id="videoGrid" class="video-grid"></div>
+            </div>
+            <div class="video-control-section">
+
+                <div class="">
+                    <div class="control-button mute-button" id="mute-button">
+                        <i class="fa fa-microphone"></i>
+                        <span>Mute</span>
+                    </div>
+                </div>
+
+                <div class="">
+                    <div class="control-button stop-video-button" id="stop-video-button">
+                        <i class="fa fa-video-camera"></i>
+                        <span>Stop Video</span>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="leave-call-button" id="leave-call-button">
+                        <button class="leave-call"><i class="fa fa-phone"></i></button>
+                        
+                    </div>
+                </div>
+                <div class="">
+                    <div class="control-button chat-button" id="chat-button">
+                        <i class="fa fa-comment-alt"></i>
+                        <span>Chat</span>
+                    </div>
+                </div>
+
+                <div class="">
+                    <div class="control-button participants-button">
+                        <i class="fa fa-user-friends"></i>
+                        <span>Participants</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="chat-section hide" id="chat-section">
+            <div class="chat-header">
+                <span><i class="fa fa-comment-alt"></i>&nbsp Chat</span>
+            </div>
+            <div class="chat-container" id="chat-container">
+                <ul class="chat-messages" id="chat-messages">
+
+                </ul>
+            </div>
+            <div class="chat-input-box">
+                <input type="text" id="chat-input" placeholder="Type your message here...">
+            </div>
+        </div>
+    </div>
+
+
+
+    
+</body>
+</html>
