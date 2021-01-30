@@ -12,14 +12,16 @@
 {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 
 }
 
 video
 {
-    height: 300px;
-    width: 400px;
+    height: 200px;
+    width: 300px;
     object-fit: cover;
+    border: 1px solid white;
     
 }
 
