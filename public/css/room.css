@@ -52,6 +52,7 @@ video
     flex-grow: 1;
     background-color: black;
     display: flex;
+
     justify-content: center;
     align-items: center;
 }
@@ -60,6 +61,7 @@ video
 .video-control-section
 {
     display: flex;
+    background-color: #e6e6e6;
     
     padding: 8px;
     justify-content: center;
@@ -69,7 +71,7 @@ video
 
 .control-button
 {
-    width: 120px;
+    width: 130px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -119,13 +121,20 @@ video
     outline: none;
 }
 
+
+.close-button{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-weight: bold;
+}
 .chat-header
 {
 
     text-align: center;
     padding: 10px;
     box-shadow: 2px 0px 6px black;
-    background-color: #f2f2f2;
+    background-color: #cccccc;
     color: #0066ff;
     font-size: 28px;
     font-weight: bold;
@@ -134,6 +143,7 @@ video
 .chat-container
 {
     flex-grow: 1;
+    padding: 10px 2px;
     overflow-y: scroll;
 }
 
@@ -141,8 +151,8 @@ video
 {
     padding: 25px 12px;
     display: flex;
-    background-color: #e6e6e6;
-    border-top: 1px solid #d9d9d9;
+    background-color: #cccccc;
+    border-top: 1px solid #b3b3b3;
 }
 
 .chat-input-box input
@@ -150,7 +160,6 @@ video
     flex-grow: 1;
     background: transparent;
     border: none;
-    columns: #f5f5f5;
     
 }
 
@@ -158,6 +167,7 @@ video
 {
     border: none;
     outline: none;
+
 }
 
 ul
@@ -175,3 +185,26 @@ ul
     color:#ff1a1a;
 }
 
+.message
+{
+    padding: 5px 10px;
+    background-color: #d9d9d9;
+    margin: 10px;
+    border-radius: 10px;
+    word-break: break-all;
+    word-wrap: break-word;
+    box-shadow: 1px 1px 4px grey;
+}
+
+.alert-msg
+{
+
+    position: absolute;
+    bottom: 16%;
+    left: 37%;
+    color: #b3b3b3;
+    background-color: transparent;
+    font-weight: lighter;
+    text-align: center;
+    padding: 2px 0px;
+}

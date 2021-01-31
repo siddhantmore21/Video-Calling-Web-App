@@ -26,3 +26,13 @@ const joinCall = document.getElementById("joinCall");
                 joinLink.classList.remove("fadelink");
             }
         })
+        //join button
+
+     
+        joinLink.addEventListener('click', () => {
+            alert(joinCall.value)
+            window.location.href = `${joinCall.value}`
+        })
+
+
+

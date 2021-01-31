@@ -8,6 +8,9 @@ const peerServer = ExpressPeerServer(server, {
     debug: true
 });
 
+var PEERLIST = [];
+
+
 var path = require('path');
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -27,6 +30,10 @@ app.post('/room', (req, res) =>
     res.redirect(`/${uuidv4()}`);
 })
 
+app.post('/index', (req, res) => {
+    res.redirect('/')
+})
+
 app.get('/:room', (req, res) => {
     res.render('room', {roomId: req.params.room});
 })
@@ -34,12 +41,21 @@ app.get('/:room', (req, res) => {
 
 io.on('connection', socket => {
     socket.on('join-room', (roomId, userId) => {
+        PEERLIST.push(userId);
         socket.join(roomId);
         socket.to(roomId).broadcast.emit('user-connected', userId);
 
         socket.on('message', message => 
         {
             io.to(roomId).emit('create-message', message)
+        })
+
+        io.to(roomId).emit('send-peerlist', PEERLIST)
+
+        socket.on('disconnect', ()=> {
+
+            socket.to(roomId).broadcast.emit('user-disconnected', userId)
+
         })
     })
 })
