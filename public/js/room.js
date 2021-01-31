@@ -10,8 +10,8 @@ const socket = io('/');
         var peer = new Peer(undefined, {
             path: '/peerjs',
             host: '/',
-           // port: '443'
-           port: 3030
+            port: '443'
+            //port: 3030
         }); 
 
         const peers = {}
