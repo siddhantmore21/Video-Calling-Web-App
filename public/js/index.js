@@ -3,7 +3,7 @@ const joinCall = document.getElementById("joinCall");
 
         
        
-
+    //join button fade when no link entered 
         joinCall.addEventListener("focus", () => {
             joinLink.classList.remove("hide");
             
@@ -26,11 +26,11 @@ const joinCall = document.getElementById("joinCall");
                 joinLink.classList.remove("fadelink");
             }
         })
-        //join button
+        
 
-     
+        //redirect user to the room
         joinLink.addEventListener('click', () => {
-            alert(joinCall.value)
+        
             window.location.href = `${joinCall.value}`
         })
 

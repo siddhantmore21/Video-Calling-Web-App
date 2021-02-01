@@ -52,7 +52,6 @@ video
     flex-grow: 1;
     background-color: black;
     display: flex;
-
     justify-content: center;
     align-items: center;
 }
@@ -199,7 +198,7 @@ ul
 .alert-msg
 {
 
-    position: absolute;
+    position: fixed;
     bottom: 16%;
     left: 37%;
     color: #b3b3b3;

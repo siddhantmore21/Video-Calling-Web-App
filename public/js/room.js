@@ -1,8 +1,8 @@
  
 
-const socket = io('/');
+const socket = io('/'); //socket
 
-        const myVideo  = document.createElement('video');
+        const myVideo  = document.createElement('video'); 
         const videoGrid = document.getElementById('videoGrid');
         myVideo.muted = true;
         const alertMessageElement = document.getElementById("alert-msg");
@@ -15,6 +15,9 @@ const socket = io('/');
         }); 
 
         const peers = {}
+
+
+        //getting our video stream
         let myVideoStream;
         navigator.mediaDevices.getUserMedia({
             video: true,
@@ -22,27 +25,35 @@ const socket = io('/');
         }).then(stream => {
             myVideoStream = stream;
             console.log(myVideoStream);
+
+            //adding our video stream to the host screen
             addVideoStream(myVideo, stream);
             
+            
         
-
+            //answering the call when peer receives the call
             peer.on('call', call => {
-                call.answer(stream);
+
+                call.answer(stream); //sending them our stream to the user
+
                 const video = document.createElement('video')
+                //getting the video stream of other user who joins the call 
                 call.on('stream', userVideoStream => {
                     console.log(userVideoStream);
+                    //adding the users video stream to the host screen
                     addVideoStream(video, userVideoStream)
                     
                 })
             })
 
+            //user connects
             socket.on('user-connected', userId => {
                 connectNewUser(userId, stream);
             })
 
         })
 
-       
+       //user disconnects
         socket.on('user-disconnected', userId => {
 
             if(peers[userId]){
@@ -51,42 +62,39 @@ const socket = io('/');
             }
         })
         
-
+        //when peer opens the new room 
         peer.on('open', id => {
             
             socket.emit('join-room', ROOM_ID, id);
         })
         
         
-        const leaveCallButton = document.getElementById('leave-call')
-        leaveCallButton.addEventListener('click', ()=> {
-            peer.disconnect();
-            console.log("peer disconnected")
-            const msg = "user disconnected";
-            setAlertMessage(msg)
-        })
-
+        //this function connects the new user
         function connectNewUser(userId, stream) 
         {
             console.log(`new user is connected - ${userId}`);
             const msg = "new user joined";
             setAlertMessage(msg)
 
+            //calling the peer using the peer id  and sends them clients video stream 
             const call = peer.call(userId, stream);
             const video = document.createElement('video');
+
+            //here client receives the hosts stream
             call.on('stream', userVideoStream => {
                 console.log(userVideoStream)
-                addVideoStream(video, userVideoStream)
+                addVideoStream(video, userVideoStream) //adding the hosts stream to clients browser
             })
             call.on('close', ()=> {
                 video.remove();
                 
             })
-
+            //assigning each peer to the call
             peers[userId] = call
         }
 
 
+        //this is a function which adds the video stream to the browser
         function addVideoStream(video, stream)
         {
             video.srcObject = stream;
@@ -97,15 +105,30 @@ const socket = io('/');
         }
 
 
+        //disconnect the peer on leave call button pressed
+        const leaveCallButton = document.getElementById('leave-call')
+        leaveCallButton.addEventListener('click', ()=> {
+            peer.disconnect();
+            console.log("peer disconnected")
+            const msg = "user disconnected";
+            setAlertMessage(msg)
+        })
+
+
+
+
+
+        //Implementing chatting feature 
         const inputbox =  document.getElementById('chat-input');
         const messagesUlElement = document.getElementById('chat-messages');
-        console.log("message" +inputbox.value);
+        
 
+        //listening to key down event
         document.addEventListener('keydown', sendMessage)
 
         function sendMessage(e)
         {
-            if(e.which == 13 && inputbox.value.length !==0)
+            if(e.which == 13 && inputbox.value.length !==0) //only executes when enter key is pressed and there is some chat in the input box
             {
                 console.log(inputbox.value)
                 socket.emit('message', inputbox.value);
@@ -114,6 +137,7 @@ const socket = io('/');
         }
 
        
+        //creating the message that is recieved from the server and appending it to the browser
         socket.on('create-message', (message) => 
         {
             
@@ -140,24 +164,27 @@ const socket = io('/');
         })
 
 
-        // socket.on('send-peerlist', (peerlist) => 
-        // {
-        //     console.log(peerlist)
+        /*
+        socket.on('send-peerlist', (peerlist) => 
+        {
+            console.log(peerlist)
            
-        //     var i = 1;
-        //     peerlist.forEach(element => {
+            var i = 1;
+            peerlist.forEach(element => {
 
-        //         peers.push(element, `user${i}`)
-        //         i++;
+                peers.push(element, `user${i}`)
+                i++;
 
 
 
                 
-        //     });
-        //     console.log(peers)
+            });
+            console.log(peers)
 
-        // })
+        })
+         */
 
+        //this function always makes sure that chat is scrolled to bottom
         function scrollToBottom()
         {
             let chatWindow = document.getElementById('chat-container')
@@ -165,6 +192,9 @@ const socket = io('/');
             chatWindow.scrollTo(0, chatWindow.scrollHeight)
         }
 
+
+
+        //enabling the chat to show or hide whwn clicked on chat button
         const chatButton = document.getElementById('chat-button');
         const chatSection = document.getElementById('chat-section');
 
@@ -183,13 +213,11 @@ const socket = io('/');
 
 
 
+        //mute unmute the audio 
 
         const muteButton = document.getElementById('mute-button')
-        const stopVideoButton = document.getElementById('stop-video-button')
-
 
         muteButton.addEventListener('click', muteUnmuteAudio)
-        stopVideoButton.addEventListener('click', hideShowVideo)
 
         
         function muteUnmuteAudio()
@@ -235,6 +263,11 @@ const socket = io('/');
         }
 
 
+        //show hide the video
+
+        const stopVideoButton = document.getElementById('stop-video-button')
+        stopVideoButton.addEventListener('click', hideShowVideo)
+
         function hideShowVideo()
         {
             const enabled = myVideoStream.getVideoTracks()[0].enabled;
@@ -276,8 +309,9 @@ const socket = io('/');
         }
 
 
+       /*
 
-        //screen share 
+        screen share 
 
 
         const shareScreenButton = document.getElementById('share-screen-button');
@@ -298,15 +332,30 @@ const socket = io('/');
             }).then((stream) => {
                 const video = document.createElement('video');
                 addVideoStream(video, stream)
+                
 
+           
+                
             }).catch((err) => {
                 console.log('error: '+err)
             })
         }
 
+        
+     */   
 
 
+     //share screen to be implemented further
+       const shareScreenButton = document.getElementById('share-screen-button');
 
+
+       shareScreenButton.addEventListener('click', () => {
+        const msg = "This feature is not yet available.";
+        setAlertMessage(msg)
+       })
+
+
+    //copy the room link at the loading of room
     const roomLinkInput = document.getElementById('room-link-input');
     const copyRoomLinkButton = document.getElementById('copy-room-link-button');
     roomLinkInput.value = window.location.href;
@@ -326,6 +375,8 @@ const socket = io('/');
     })
 
 
+
+    //updating the alert messages on the screen 
     function setAlertMessage(message)
     {
         alertMessageElement.innerHTML = message;

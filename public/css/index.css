@@ -30,7 +30,10 @@ footer
     text-align: center;
     
 }
-
+.copyright
+{
+    margin-top: 10px;
+}
 .container
 {
     padding:  60px 0px;
